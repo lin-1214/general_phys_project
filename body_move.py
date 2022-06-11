@@ -70,13 +70,30 @@ def airChair(dancer):
         r_leg_theta1 += dancer.move('r_leg_1',pi/5)
         r_leg_theta2 += dancer.move('r_leg_2',-3*pi/4)
         time.sleep(2)  #定格
-        initialize(dancer,r_arm_theta1, r_arm_theta2, l_arm_theta1, l_arm_theta2, r_leg_theta1, r_leg_theta2, l_leg_theta1, l_leg_theta2, b_theta)
-
-def backSpin(dancer):
-        
+        initialize(dancer,r_arm_theta1, r_arm_theta2, l_arm_theta1, l_arm_theta2, r_leg_theta1, r_leg_theta2, l_leg_theta1, l_leg_theta2, b_theta)        
 
 def windMill(dancer):
-
+        global r_arm_theta1, r_arm_theta2, r_leg_theta1, r_leg_theta2, l_arm_theta1, l_arm_theta2, l_leg_theta1, l_leg_theta2, b_theta
+        for i in range(2):
+                r_arm_theta1 += dancer.move('r_arm_1',-pi/4)
+                b_theta += dancer.move('body',2*pi/5)
+                r_arm_theta2 += dancer.move('r_arm_2',pi/4)
+                l_arm_theta2 += dancer.move('l_arm_2',-pi/3)
+                l_arm_theta1 += dancer.move('l_arm_1',-3*pi/2)
+                r_leg_theta1 += dancer.move('r_leg_1',-pi/5)
+                l_leg_theta1 += dancer.move('l_leg_1',pi/5)
+                dancer.rotate(4)
+                l_arm_theta2 += dancer.move('l_arm_2',2*pi/3)
+                l_arm_theta1 += dancer.move('l_arm_1',3*pi/4)
+                r_arm_theta1 += dancer.move('r_arm_1',-2*pi/3)
+                r_arm_theta2 += dancer.move('r_arm_2',-pi)
+                l_leg_theta2 += dancer.move('l_leg_2',pi/5)
+                r_leg_theta2 += dancer.move('r_leg_2',-pi/5)
+                b_theta += dancer.move('body',pi/10)
+                dancer.rotate(4)
+                #回復未做
+        initialize(dancer,r_arm_theta1, r_arm_theta2, l_arm_theta1, l_arm_theta2, r_leg_theta1, r_leg_theta2, l_leg_theta1, l_leg_theta2, b_theta)
+        
         
 #應該可以做為編舞範例
 ricky = dancer(vec(-.8, 0, 0))
@@ -93,8 +110,7 @@ ricky.move('l_arm_2',pi/4)
 #handSpin(ricky)
 #time.sleep(1)
 #airChair(ricky)
-
-
+windMill(ricky)
 
 
 
