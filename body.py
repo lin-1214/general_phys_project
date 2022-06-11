@@ -30,13 +30,14 @@ class dancer:
 		self.l_arm_2 = box(pos = vec(0, 0.15*1.5, 0)+vec(self.lA_joint_1), length=0.06, height=0.15, width=0.06, color=color.white)
 		self.l_hand = sphere(pos = vec(0, 0.3+0.04, 0)+vec(self.lA_joint_1), radius = 0.04, color=color.white)
 
-		self.r_leg_1 = box(pos = vec(0, 0.15/2, 0)+vec(self.rL_joint_1), length=0.06, height=0.15, width=0.06, color=vec(0.447,0.345,0.126))
+		self.r_leg_1 = box(pos = vec(0, 0.15/2, 0)+vec(self.rL_joint_1), length=0.06, height=0.15, width=0.06, color=vec(0.478, 0.388, 0.204))
 		self.r_leg_2 = box(pos = vec(0, 0.15/2, 0)+vec(self.rL_joint_2), length=0.06, height=0.15, width=0.06, color=color.white)
 
-		self.l_leg_1 = box(pos = vec(0, 0.15/2, 0)+vec(self.lL_joint_1), length=0.06, height=0.15, width=0.06, color=vec(0.447,0.345,0.126))
+		self.l_leg_1 = box(pos = vec(0, 0.15/2, 0)+vec(self.lL_joint_1), length=0.06, height=0.15, width=0.06, color=vec(0.478, 0.388, 0.204))
 		self.l_leg_2 = box(pos = vec(0, 0.15/2, 0)+vec(self.lL_joint_2), length=0.06, height=0.15, width=0.06, color=color.white)
 		#--------------------------------------------------------
 	def move(self, obj, angle):		# obj:身體部位  angle: use radian
+		dt = 0.1
 		dtheta = -0.5
 		change_sine = False
 		if angle < 0:	# if 角度為負
@@ -111,16 +112,44 @@ class dancer:
 				theta += dt*dtheta
 				self.l_leg_2.rotate(axis=vec(0, 0, 1), angle=dt*-dtheta, origin=vec(self.lL_joint_2))
 				self.l_leg_2.pos = vec(self.lL_joint_2) + 1.25*vec(-self.l_leg_2.axis.y, self.l_leg_2.axis.x, 0)
+		elif obj == 'body':
+			theta = 0
+			dt = 0.045
+			while(abs(theta) <= abs(angle)):
+				rate(100)
+				theta += dt*dtheta
+				self.r_arm_1.rotate(axis=vec(0, 0, 1), angle=dt*dtheta, origin=vec(self.center))
+				self.r_arm_2.rotate(axis=vec(0, 0, 1), angle=dt*dtheta, origin=vec(self.center))
+				self.r_leg_1.rotate(axis=vec(0, 0, 1), angle=dt*dtheta, origin=vec(self.center))
+				self.r_leg_2.rotate(axis=vec(0, 0, 1), angle=dt*dtheta, origin=vec(self.center))
+				self.l_arm_1.rotate(axis=vec(0, 0, 1), angle=dt*dtheta, origin=vec(self.center))
+				self.l_arm_2.rotate(axis=vec(0, 0, 1), angle=dt*dtheta, origin=vec(self.center))
+				self.l_leg_1.rotate(axis=vec(0, 0, 1), angle=dt*dtheta, origin=vec(self.center))
+				self.l_leg_2.rotate(axis=vec(0, 0, 1), angle=dt*dtheta, origin=vec(self.center))
+				self.l_hand.rotate(axis=vec(0, 0, 1), angle=dt*dtheta, origin=vec(self.center))
+				self.r_hand.rotate(axis=vec(0, 0, 1), angle=dt*dtheta, origin=vec(self.center))
+				self.body.rotate(axis=vec(0, 0, 1), angle=dt*dtheta, origin=vec(self.center))
+				self.head.rotate(axis=vec(0, 0, 1), angle=dt*dtheta, origin=vec(self.center))
+			self.rA_joint_1 = rotate(self.rA_joint_1-vec(self.center), angle = -angle, axis = vec(0, 0, 1)) +vec(self.center)
+			self.lA_joint_1 = rotate(self.lA_joint_1-vec(self.center), angle = -angle, axis = vec(0, 0, 1)) +vec(self.center)
+			self.rL_joint_1 = rotate(self.rL_joint_1-vec(self.center), angle = -angle, axis = vec(0, 0, 1)) +vec(self.center)
+			self.lL_joint_1 = rotate(self.lL_joint_1-vec(self.center), angle = -angle, axis = vec(0, 0, 1)) +vec(self.center)
+			self.rA_joint_2 = rotate(self.rA_joint_2-vec(self.center), angle = -angle, axis = vec(0, 0, 1)) +vec(self.center)
+			self.lA_joint_2 = rotate(self.lA_joint_2-vec(self.center), angle = -angle, axis = vec(0, 0, 1)) +vec(self.center)
+			self.rL_joint_2 = rotate(self.rL_joint_2-vec(self.center), angle = -angle, axis = vec(0, 0, 1)) +vec(self.center)
+			self.lL_joint_2 = rotate(self.lL_joint_2-vec(self.center), angle = -angle, axis = vec(0, 0, 1)) +vec(self.center)
+			
 		if change_sine==True:
 			change_sine = False
 			dtheta = -dtheta
+
 		return angle #紀錄角度
 
 	def rotate(self, turns):
 		theta = 0
 		while(abs(theta)/(2*pi) <= turns):
 			theta += dt*dtheta
-			rate(300) # 轉速可調
+			rate(250) # 轉速可調
 			self.r_arm_1.rotate(axis=vec(0, 1, 0), angle=dt*dtheta, origin=vec(self.center)+vec(0, self.r_arm_1.pos.y, 0))
 			self.r_arm_2.rotate(axis=vec(0, 1, 0), angle=dt*dtheta, origin=vec(self.center)+vec(0, self.r_arm_2.pos.y, 0))
 			self.r_leg_1.rotate(axis=vec(0, 1, 0), angle=dt*dtheta, origin=vec(self.center)+vec(0, self.r_leg_1.pos.y, 0))
@@ -134,26 +163,28 @@ class dancer:
 			self.body.rotate(axis=vec(0, 1, 0), angle=dt*dtheta, origin=vec(self.center)+vec(0, self.body.pos.y, 0))
 			self.head.rotate(axis=vec(0, 1, 0), angle=dt*dtheta, origin=vec(self.center)+vec(0, self.head.pos.y, 0))
 
-
 '''
+johnny = dancer(vec(0.8, 0, 0))		# 傳入頭的座標
+ricky = dancer(vec(-0.8, 0, 0))
+johnny.move('body', -pi/5)
 johnny.move('r_arm_1', pi/4)		# 傳入身體的部位&角度（名稱都可調）
-ricky.move('l_arm_1', pi/4)
+# ricky.move('l_arm_1', pi/4)
 johnny.move('r_arm_2',-pi/4)
-ricky.move('l_arm_2', pi/4)
+# ricky.move('l_arm_2', pi/4)
 johnny.move('l_arm_1', pi/2)
-ricky.move('r_arm_1', pi/2)
+# ricky.move('r_arm_1', pi/2)
 johnny.move('l_arm_2', pi/3)
-ricky.move('r_arm_2', pi/3)
+# ricky.move('r_arm_2', pi/3)
 johnny.move('r_leg_1', pi/3)
-ricky.move('r_leg_1', pi/3)
+# ricky.move('r_leg_1', pi/3)
 johnny.move('r_leg_2', pi/6)
-ricky.move('r_leg_2', pi/6)
+# ricky.move('r_leg_2', pi/6)
 johnny.move('l_leg_1', pi/3)
-ricky.move('l_leg_1', pi/3)
+# ricky.move('l_leg_1', pi/3)
 johnny.move('l_leg_2', pi/6)
-ricky.move('l_leg_2', pi/6)
+# ricky.move('l_leg_2', pi/6)
 johnny.rotate(5)					# 旋轉的圈數
-ricky.rotate(5)
+# ricky.rotate(5)
 
 '''
 
