@@ -1,5 +1,5 @@
 from vpython import *
-
+#from calculate import *
 scene = canvas(width = 1200, height =800, center=vec(0, 0, 0), background=vec(0.5,0.5,0)) 
 #---------調整速度-----------
 dt = 0.1
@@ -162,6 +162,7 @@ class dancer:
 			self.r_hand.rotate(axis=vec(0, 1, 0), angle=dt*dtheta, origin=vec(self.center)+vec(0, self.r_hand.pos.y, 0))
 			self.body.rotate(axis=vec(0, 1, 0), angle=dt*dtheta, origin=vec(self.center)+vec(0, self.body.pos.y, 0))
 			self.head.rotate(axis=vec(0, 1, 0), angle=dt*dtheta, origin=vec(self.center)+vec(0, self.head.pos.y, 0))
+
 
 '''
 johnny = dancer(vec(0.8, 0, 0))		# 傳入頭的座標

@@ -1,7 +1,7 @@
 from vpython import *
 from body import *
 import time
-
+from calculate import *
 r_arm_theta1, r_arm_theta2, r_leg_theta1, r_leg_theta2, l_arm_theta1, l_arm_theta2, l_leg_theta1, l_leg_theta2, b_theta = 0,0,0,0,0,0,0,0,0
 
 #使舞者回復初始動作
@@ -14,8 +14,8 @@ def initialize(dancer,r_a1,r_a2,l_a1,l_a2,r_l1,r_l2,l_l1,l_l2,b):
         dancer.move('r_arm_1',-r_a1)
         dancer.move('r_arm_2',-r_a2)
         dancer.move('l_arm_1',-l_a1)
-        dancer.move('body',-b)
         dancer.move('l_arm_2',-l_a2)
+        dancer.move('body',-b)
         r_arm_theta1,r_arm_theta2,l_arm_theta1,l_arm_theta2,r_leg_theta1,r_leg_theta2,l_leg_theta1,l_leg_theta2,b_theta = 0,0,0,0,0,0,0,0,0
         
 
@@ -36,6 +36,8 @@ def headSpin(dancer):
         r_leg_theta1 += dancer.move('r_leg_1',-pi/7)
         l_leg_theta1 += dancer.move('l_leg_1',-pi/5)
         l_leg_theta2 += dancer.move('l_leg_2',-pi/4)
+        rotate_energy(dancer)
+        gravity_center(dancer)
         dancer.rotate(7)
         initialize(dancer,r_arm_theta1, r_arm_theta2, l_arm_theta1, l_arm_theta2, r_leg_theta1, r_leg_theta2, l_leg_theta1, l_leg_theta2, b_theta)
         
@@ -45,6 +47,8 @@ def handSpin(dancer):
         l_arm_theta1 += dancer.move('l_arm_1',pi/8)
         r_leg_theta1 += dancer.move('r_leg_1',-pi/16)
         l_leg_theta1 += dancer.move('l_leg_1',-pi/16)
+        rotate_energy(dancer)
+        gravity_center(dancer)
         dancer.rotate(7)
         initialize(dancer,r_arm_theta1, r_arm_theta2, l_arm_theta1, l_arm_theta2, r_leg_theta1, r_leg_theta2, l_leg_theta1, l_leg_theta2,b_theta)
 
@@ -57,6 +61,9 @@ def ice(dancer):
         r_leg_theta1 += dancer.move('r_leg_1',pi/4)
         l_leg_theta1 += dancer.move('l_leg_1',pi/4)
         r_leg_theta2 += dancer.move('r_leg_2',-pi/4)
+        rotate_energy(dancer)
+        gravity_center(dancer)
+        lever_force(dancer) 
         time.sleep(2) #定格
         initialize(dancer,r_arm_theta1, r_arm_theta2, l_arm_theta1, l_arm_theta2, r_leg_theta1, r_leg_theta2, l_leg_theta1, l_leg_theta2, b_theta)
 
@@ -70,8 +77,13 @@ def airChair(dancer):
         l_leg_theta1 += dancer.move('l_leg_1',2*pi/5)
         r_leg_theta1 += dancer.move('r_leg_1',pi/5)
         r_leg_theta2 += dancer.move('r_leg_2',-3*pi/4)
+        rotate_energy(dancer)
+        gravity_center(dancer)
+        lever_force(dancer)
         time.sleep(2)  #定格
-        initialize(dancer,r_arm_theta1, r_arm_theta2, l_arm_theta1, l_arm_theta2, r_leg_theta1, r_leg_theta2, l_leg_theta1, l_leg_theta2, b_theta)        
+        initialize(dancer,r_arm_theta1, r_arm_theta2, l_arm_theta1, l_arm_theta2, r_leg_theta1, r_leg_theta2, l_leg_theta1, l_leg_theta2, b_theta)
+
+
 
 def windMill(dancer):
         global r_arm_theta1, r_arm_theta2, r_leg_theta1, r_leg_theta2, l_arm_theta1, l_arm_theta2, l_leg_theta1, l_leg_theta2, b_theta
@@ -83,6 +95,11 @@ def windMill(dancer):
         l_arm_theta1 += dancer.move('l_arm_1',-3*pi/2)
         r_leg_theta1 += dancer.move('r_leg_1',pi/5)
         l_leg_theta1 += dancer.move('l_leg_1',pi/5)
+        moment_of_inertia(dancer)
+        rotate_energy(dancer)
+
+        gravity_center(dancer)
+        
         for i in range(2):
                 dancer.rotate(5)
                 l_arm_theta2 += dancer.move('l_arm_2',2*pi/3)
@@ -115,26 +132,33 @@ def elbow(dancer):
         l_leg_theta1 += dancer.move('l_leg_1',pi/2)
         r_leg_theta1 += dancer.move('r_leg_1',pi/10)
         r_leg_theta2 += dancer.move('r_leg_2',pi/3)
+        rotate_energy(dancer)
+        gravity_center(dancer)
         time.sleep(2)
         initialize(dancer,r_arm_theta1, r_arm_theta2, l_arm_theta1, l_arm_theta2, r_leg_theta1, r_leg_theta2, l_leg_theta1, l_leg_theta2, b_theta)
         
-        
-        
 #應該可以做為編舞範例
-ricky = dancer(vec(-.8, 0, 0))
-#使呈用手撐地狀態
-ricky.move('r_arm_1',3*pi/4)
-ricky.move('l_arm_1',3*pi/4)
-ricky.move('r_arm_2',pi/4)
-ricky.move('l_arm_2',pi/4)
+# ricky = dancer(vec(-.8, 0, 0))
+# #使呈用手撐地狀態
+# ricky.move('r_arm_1',3*pi/4)
+# ricky.move('l_arm_1',3*pi/4)
+# ricky.move('r_arm_2',pi/4)
+# ricky.move('l_arm_2',pi/4)
+# #動作演示
+# #headSpin(ricky)
+# #time.sleep(1)
+# #ice(ricky)
+# #handSpin(ricky)
+# #time.sleep(1)
+# #airChair(ricky)
+# headSpin(ricky)
+# ice(ricky)
+# handSpin(ricky)
+# airChair(ricky)
+# windMill(ricky)
+# elbow(ricky)
 
-#動作演示
-headSpin(ricky)
-ice(ricky)
-handSpin(ricky)
-airChair(ricky)
-windMill(ricky)
-elbow(ricky)
+
 
 
 
