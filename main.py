@@ -15,11 +15,10 @@ ricky.move('l_arm_2',pi/4)
 #airChair(ricky)
 windMill(ricky)
 airChair(ricky)
-elbow(ricky)
-ice(ricky)
 handSpin(ricky)
+ice(ricky)
 headSpin(ricky)
-
+elbow(ricky)
 
 cnt = 0
 scene2 = graph(title = "Energy of difference movement")
